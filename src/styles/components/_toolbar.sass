@@ -1,0 +1,56 @@
+//Toolbar
+.toolbar
+  width: 3.5rem
+  position: fixed
+  top: 0.75em
+  right: 0
+  bottom: 0
+  display: block
+  margin-top: -1px
+
+  @media only screen and (min-width: 1000px)
+    &:before
+      content: ""
+      position: absolute
+      top: 0
+      left: 0
+      width: 1px
+      height: 100vh
+      background: currentColor
+      opacity: 0.2
+
+  .cat-navigation
+    display: flex
+    width: 100vh
+    height: 3.5rem
+    position: fixed
+    top: 0
+    flex-direction: row
+    transform: rotate(90deg) translateY(calc(-50% - 1.75rem))
+    transform-origin: left top
+    justify-content: center
+    align-items: center
+    font-size: .6rem
+    font-family: sans-serif
+    text-transform: uppercase
+
+    &:hover
+      ul li a
+        color: $grey
+
+    ul
+      list-style: none
+      margin: 0
+      padding: 0
+
+      li
+        display: inline-block
+        margin: 0 .5rem
+
+        a
+          color: $black
+          transition: all .2s ease-in-out
+
+          &:hover
+            color: $black
+

@@ -4,15 +4,19 @@ import { kebabCase } from 'lodash'
 import Helmet from 'react-helmet'
 import { graphql, Link } from 'gatsby'
 import Layout from '../components/Layout'
+import SimilarArticles from '../components/SimilarArticles'
 import Content, { HTMLContent } from '../components/Content'
 
 export const BlogPostTemplate = ({
   content,
   contentComponent,
-  description,
   tags,
   title,
+  category,
+  currentSlug,
   helmet,
+  next,
+  prev
 }) => {
   const PostContent = contentComponent || Content
 
@@ -21,12 +25,21 @@ export const BlogPostTemplate = ({
       {helmet || ''}
       <div className="container content">
         <div className="columns">
-          <div className="column is-10 is-offset-1">
-            <h1 className="title is-size-2 has-text-weight-bold is-bold-light">
+          <div className="column is-6 is-offset-3">
+            <h1 className="title is-size-2 is-bold-light has-text-centered">
               {title}
             </h1>
-            <p>{description}</p>
             <PostContent content={content} />
+            <div>
+              {next &&
+                <Link to={next.fields.slug}>{next.frontmatter.title}</Link>
+              }
+            </div>
+            <div>
+              {prev &&
+              <Link to={prev.fields.slug}>{prev.frontmatter.title}</Link>
+              }
+            </div>
             {tags && tags.length ? (
               <div style={{ marginTop: `4rem` }}>
                 <h4>Tags</h4>
@@ -39,6 +52,8 @@ export const BlogPostTemplate = ({
                 </ul>
               </div>
             ) : null}
+
+            <SimilarArticles category={category} tags={tags} currentArticleSlug={currentSlug} />
           </div>
         </div>
       </div>
@@ -54,8 +69,9 @@ BlogPostTemplate.propTypes = {
   helmet: PropTypes.object,
 }
 
-const BlogPost = ({ data }) => {
+const BlogPost = ({ data, pageContext }) => {
   const { markdownRemark: post } = data
+  const {next, prev} = pageContext
 
   return (
     <Layout>
@@ -74,6 +90,10 @@ const BlogPost = ({ data }) => {
         }
         tags={post.frontmatter.tags}
         title={post.frontmatter.title}
+        category={post.frontmatter.category}
+        currentSlug={post.fields.slug}
+        next={next}
+        prev={prev}
       />
     </Layout>
   )
@@ -92,11 +112,15 @@ export const pageQuery = graphql`
     markdownRemark(id: { eq: $id }) {
       id
       html
+      fields {
+        slug
+      }
       frontmatter {
-        date(formatString: "MMMM DD, YYYY")
+        date(formatString: "DD MMMM, YYYY", locale: "it")
         title
         description
         tags
+        category
       }
     }
   }

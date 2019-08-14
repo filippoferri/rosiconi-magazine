@@ -1,0 +1,56 @@
+//Layout
+body
+  min-height: 100%
+  word-wrap: break-word
+  text-overflow: ellipsis
+  border: 0 solid $black
+
+  @media only screen and (min-width: 1000px)
+    border-left-width: 3.5rem
+    border-top-width: 0.75em
+
+  @media screen and (min-width: 1000px)
+    &:before,
+    &:after
+      background: #171617
+
+  @media only screen and (min-width: 1000px)
+    &:before
+      width: 100%
+      height: 0.75em
+
+  @media only screen and (min-width: 1000px)
+    &:before,
+    &:after
+      content: ""
+      position: fixed
+      top: 0
+      left: 0
+      z-index: 100
+      background: #171617
+
+main
+
+  @media only screen and (min-width: 1000px)
+    padding-right: 3.5rem
+
+
+.content h1,
+.content h2,
+.content h3,
+.content h4
+  font-family: $family-secondary
+
+
+.content .gatsby-resp-image-wrapper
+  margin: 2rem -5rem !important
+
+
+
+::selection
+  background: #121212
+  color: #fff
+
+::selection
+  background: black
+  color: white
